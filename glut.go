@@ -1066,6 +1066,70 @@ func GameModeGet(mode int) int {
 }
 
 /*
+ * Texture API
+ */
+
+func TexImage2DRGBByte(width, height int, data unsafe.Pointer) {
+	C.glTexImage2D(C.GL_TEXTURE_2D, 0, 3, C.int(width), C.int(height), 0, C.GL_RGB, C.GL_UNSIGNED_BYTE, data)
+}
+
+func SetTexParameteri() {
+	C.glTexParameteri(C.GL_TEXTURE_2D, C.GL_TEXTURE_MAG_FILTER, C.GL_NEAREST)
+	C.glTexParameteri(C.GL_TEXTURE_2D, C.GL_TEXTURE_MIN_FILTER, C.GL_NEAREST)
+	C.glTexParameteri(C.GL_TEXTURE_2D, C.GL_TEXTURE_WRAP_S, C.GL_CLAMP)
+	C.glTexParameteri(C.GL_TEXTURE_2D, C.GL_TEXTURE_WRAP_T, C.GL_CLAMP)
+}
+
+func TexSubImage2DRGBByte(width, height int, data unsafe.Pointer) {
+	C.glTexSubImage2D(C.GL_TEXTURE_2D, 0, 0, 0, C.int(width), C.int(height), C.GL_RGB, C.GL_UNSIGNED_BYTE, data)
+}
+
+func DrawTexture(width, height int) {
+	C.glBegin(C.GL_QUADS)
+	C.glTexCoord2d(0.0, 0.0)
+	C.glVertex2d(0.0, 0.0)
+	C.glTexCoord2d(1.0, 0.0)
+	C.glVertex2d(C.double(width), 0.0)
+	C.glTexCoord2d(1.0, 1.0)
+	C.glVertex2d(C.double(width), C.double(height))
+	C.glTexCoord2d(0.0, 1.0)
+	C.glVertex2d(0.0, C.double(height))
+	C.glEnd()
+}
+
+func EnableTexture() {
+	C.glEnable(C.GL_TEXTURE_2D)
+}
+
+func Clear() {
+	C.glClear(C.GL_COLOR_BUFFER_BIT)
+}
+
+func ClearColor(red, blue, green, alpha float32) {
+	C.glClearColor(C.float(red), C.float(blue), C.float(green), C.float(alpha))
+}
+
+func SetMatrixModeProjection() {
+	C.glMatrixMode(C.GL_PROJECTION)
+}
+
+func LoadIdentity() {
+	C.glLoadIdentity()
+}
+
+func Ortho2D(w, h int) {
+	C.gluOrtho2D(0, C.double(w), C.double(h), 0)
+}
+
+func SetMatrixModeModelView() {
+	C.glMatrixMode(C.GL_MODELVIEW)
+}
+
+func ViewPort(w, h int) {
+	C.glViewport(0, 0, C.int(w), C.int(h))
+}
+
+/*
  * Go Exported Functions
  */
 
